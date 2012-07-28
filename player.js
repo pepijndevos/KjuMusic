@@ -2,7 +2,7 @@ var player = $("#player");
 player.on("ended", pop);
 
 playlist = $("#playlist");
-playlist.sortable({'axis':'Y'});
+playlist.sortable({axis:'y'});
 playlist.on("dragenter", dragenter);
 playlist.on("dragover", dragover);
 playlist.on("drop", drop);
@@ -11,6 +11,7 @@ playlist.on("sortupdate", play_top);
 helper = $("<li style=\"visibility: hidden;\"></li>")
 
 function pop() {
+	console.log("song finished");
 	playlist.children(":first").remove();
 	play_top();
 }
@@ -44,20 +45,17 @@ function dragover(e) {
 	e.stopPropagation();
 }
 
-function updateList(target, name) {
-	return function(ev) {
-		ev.target.result;
-		var element = $("<li><a href=\"" + ev.target.result + "\">" + name + "</a></li>");
-		insertBelow(target, element);
-		play_top();
-	}
+function updateList(target, name, url) {
+	var element = $("<li><a href=\"" + url + "\">" + name + "</a></li>");
+	insertBelow(target, element);
+	play_top();
 }
 
 function drop(e) {  
 	e.stopPropagation();  
 	e.preventDefault();  
 	e = e.originalEvent || e;
-
+	window.URL = window.URL || window.webkitURL;
 	
 	var files = e.dataTransfer.files;  
 
@@ -65,9 +63,8 @@ function drop(e) {
 	for(i=0;i<files.length;i++) {
 		var name = files[i].name
 		var target = e.target;
-		fr = new FileReader();
-		fr.onload = updateList(target, name);
-		fr.readAsDataURL(files[i]);
+		var url = window.URL.createObjectURL(files[i]);
+		updateList(target, name, url);
 	}
 	helper.detach();
 }
