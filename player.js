@@ -8,7 +8,7 @@ playlist.on("dragover", dragover);
 playlist.on("drop", drop);
 playlist.on("sortupdate", play_top);
 
-helper = $("<li style=\"visibility: hidden;\"></li>")
+helper = $("<li style=\"visibility: hidden;\">potential</li>")
 
 function pop() {
 	console.log("song finished");
@@ -48,7 +48,6 @@ function dragover(e) {
 function updateList(target, name, url) {
 	var element = $("<li><a href=\"" + url + "\">" + name + "</a></li>");
 	insertBelow(target, element);
-	play_top();
 }
 
 function drop(e) {  
@@ -67,4 +66,5 @@ function drop(e) {
 		updateList(target, name, url);
 	}
 	helper.detach();
+	play_top();
 }
