@@ -17,7 +17,7 @@ function pop() {
 }
 
 function play_top() {
-	var url = playlist.find("li:first a").attr('href');
+	var url = playlist.find(":first").attr('src');
 	if(player.attr('src') != url) {
 		player.attr('src', url);	
 	}
@@ -46,7 +46,7 @@ function dragover(e) {
 }
 
 function updateList(target, name, url) {
-	var element = $("<li><a href=\"" + url + "\">" + name + "</a></li>");
+	var element = $("<li src=\"" + url + "\">" + name + "</li>");
 	insertBelow(target, element);
 }
 
